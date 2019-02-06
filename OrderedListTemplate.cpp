@@ -38,11 +38,11 @@ public:
 		_ascending = asc;
 	}
 
-	int Compare(T v1, T v2)
+	int compare(T v1, T v2)
 	{
 		if ( typeid(T) == typeid(string) )
 		{
-			int len_1 = v1.size();
+		  	int len_1 = v1.size();
 			int count = 0;
 			string str_1;
 			str_1.resize(len_1 + 1);
@@ -97,7 +97,7 @@ public:
 	}
 
 
-	void Add(T value)
+	void add(T value)
 	{
 		Node<T>* node = head;
 		Node<T>* new_node = new Node<T>(value);
@@ -106,7 +106,7 @@ public:
 		{
 			while (node != NULL)
 			{
-				int i = Compare(node->value, new_node->value);
+				int i = compare(node->value, new_node->value);
 
 				if (i == 0 || i == -1)
 				{
@@ -122,7 +122,7 @@ public:
 		{
 			while (node != NULL)
 			{
-				int i = Compare(node->value, new_node->value);
+				int i = compare(node->value, new_node->value);
 				if (i == 0 || i == 1)
 				{
 					insert_after(node->prev, new_node);
@@ -134,7 +134,7 @@ public:
 		}
 	}
 
-	Node<T>* Find(T val)
+	Node<T>* find(T val)
 	{
 		Node<T>* node = head;
 
@@ -150,7 +150,7 @@ public:
 		return NULL;
 	}
 
-	void Delete(T val)
+	void del(T val)
 	{
 		Node<T>* node = head;
 		while (node != NULL)
@@ -186,7 +186,7 @@ public:
 		}
 	}
 
-	void Clear(bool asc)
+	void clear(bool asc)
 	{
 		_ascending = asc;
 		Node<T>* node = head;
@@ -200,7 +200,7 @@ public:
 		tail = NULL;
 	}
 
-	int Count()
+	int size()
 	{
 		int count = 0;
 		Node<T>* node = head;
@@ -212,9 +212,9 @@ public:
 		return count;
 	}
 
-	T* GetAll()     // give the filing of ordered list as array 
+	T* get_all()     // give the filing of ordered list as array
 	{
-		int count = Count();
+		int count = size();
 		Node<T>* node = head;
 		T* list = new T[count];
 
@@ -268,23 +268,6 @@ protected:  //----------------------------------------------
 		}
 		tail = item;
 	}
-
-	string DeleteSpaces(string text)
-	{
-		int len = text.Length(), count = 0;
-		AnsiString str;
-		str.SetLength(len + 1);
-
-		for (int i = 1; i <= len; i++)
-		{
-			if (text[i] != ' ')
-			{
-				str[++count] = text[i];
-			}
-		}
-		str[count + 1] = 0;
-		return str;
-	}
 };
 
 //========================= TEST ======================================
@@ -308,113 +291,123 @@ bool Compare(int* array, int* result, int array_size, int result_size)
 
 int test_OList()
 {
-	int test = 0;
-	
- /*	OrderedList<int>* OList = new OrderedList<int>(true);
+   	int test = 0;
+/*
+	OrderedList<int>* OList = new OrderedList<int>(true);
 
-	OList->Add(1);
-	OList->Add(5);
-	OList->Add(7);
-	OList->Add(1);
-	OList->Add(6);
+	OList->add(1);
+	OList->add(5);
+	OList->add(7);
+	OList->add(1);
+	OList->add(6);
 
-	int list_size = OList->Count();          // get list_size
+	int list_size = OList->size();          // get list_size
 	int OListResult[5] = { 1,1,5,6,7 };        // get result array
-	int* arrayINT = OList->GetAll();         // get OList array
+	int* arrayINT = OList->get_all();         // get OList array
 	int* arrayResult = OListResult;
 	int result_size = sizeof(OListResult) / sizeof(OListResult[0]);  //get result array size
 	if (!Compare(arrayINT, arrayResult, list_size, result_size)) test++;  // compare size and filling
 
-	OList->Delete(6);
-	OList->Delete(1);
-	OList->Delete(7);
+	OList->del(6);
+	OList->del(1);
+	OList->del(7);
 
-	list_size = OList->Count();
+	list_size = OList->size();
 	int OListResult2[2] = { 1,5 };
-	arrayINT = OList->GetAll();
+	arrayINT = OList->get_all();
 	arrayResult = OListResult2;
 	result_size = sizeof(OListResult2) / sizeof(OListResult2[0]);
 	if (!Compare(arrayINT, arrayResult, list_size, result_size)) test++;
 
-	Node<int>* node = OList->Find(1);
+	Node<int>* node = OList->find(1);
 	int value = node->value;
 	if (value != 1) test++;
 
-	node = OList->Find(5);
+	node = OList->find(5);
 	value = node->value;
 	if (value != 5) test++;
 
-	OList->Clear(false);
+	OList->clear(false);
 
-	OList->Add(1);
-	OList->Add(5);
-	OList->Add(7);
-	OList->Add(1);
-	OList->Add(6);
+	OList->add(1);
+	OList->add(5);
+	OList->add(7);
+	OList->add(1);
+	OList->add(6);
 
-	list_size = OList->Count();
+	list_size = OList->size();
 	int OListResult3[5] = { 7,6,5,1,1 };
-	arrayINT = OList->GetAll();
+	arrayINT = OList->get_all();
 	arrayResult = OListResult3;
 	result_size = sizeof(OListResult3) / sizeof(OListResult3[0]);
 	if (!Compare(arrayINT, arrayResult, list_size, result_size)) test++;
 
-	OList->Delete(6);
-	OList->Delete(1);
-	OList->Delete(7);
+	OList->del(6);
+	OList->del(1);
+	OList->del(7);
 
-	list_size = OList->Count();
+	list_size = OList->size();
 	int OListResult4[2] = { 5,1 };
-	arrayINT = OList->GetAll();
+	arrayINT = OList->get_all();
 	arrayResult = OListResult4;
 	result_size = sizeof(OListResult4) / sizeof(OListResult4[0]);
 	if (!Compare(arrayINT, arrayResult, list_size, result_size)) test++;
 
-	node = OList->Find(1);
+	node = OList->find(1);
 	value = node->value;
 	if (value != 1) test++;
 
-	node = OList->Find(5);
+	node = OList->find(5);
 	value = node->value;
-	if (value != 5) test++;   */
+	if (value != 5) test++;
+ */
 
-	//----------  visual check ----------
-	OrderedList<string>* St_OList = new OrderedList<string>(true);
-	St_OList->Add("AB");
-	St_OList->Add("A");
-	St_OList->Add(" A B");
-	string* list1 = St_OList->GetAll();
-	int count2 = St_OList->Count();
+ /*	OrderedList<string>* St_OList = new OrderedList<string>(true);
+	St_OList->add("ABE");
+	St_OList->add("A");
+	St_OList->add(" A B");
+     St_OList->add("ABC");
+
+	string* list1 = St_OList->get_all();
+	int count2 = St_OList->size();
+	count2 = St_OList->size();
+     string s1[4] = {"A", " A B", "ABC", "ABE"};
+
 	for (int i = 0; i < count2; i++)
 	{
-          // S2 = S2 + " " + list2[i];
-	    // cout << list1[i] << "  ||  " << endl;
+		if(list1[i] != s1[i])
+               test++;
 	}
-	//system("pause");
+	St_OList->del("A");
+	St_OList->del("ABE");
 
-	St_OList->Clear(false);
-	St_OList->Add("A");
-	St_OList->Add("AB");
-	St_OList->Add("A B");
-	St_OList->Add(" ABCB");
-	St_OList->Delete("A B");
-	St_OList->Add(" ABE");
-
-	string* list2 = St_OList->GetAll();
-
-	string S2 = "";
-	count2 = St_OList->Count();
+     string* list12 = St_OList->get_all();
+     count2 = St_OList->size();
+     string s12[2] = {" A B", "ABC"};
 	for (int i = 0; i < count2; i++)
 	{
-		S2 = S2 + " " + list2[i];
-	    //	cout << list2[i] << "  ||  " << endl;
+		if(list12[i] != s12[i])
+               test++;
 	}
-	//cout << "test = " << test << endl;
-	//Form1->MemoCHAR->Text = S2;
-     //	delete St_OList;
-	//----------------------------------
 
-	//delete OList;
-     delete St_OList;
+	St_OList->clear(false);
+	St_OList->add("A");
+	St_OList->add("AB");
+	St_OList->add("A B");
+	St_OList->add(" ABCB");
+	St_OList->del("A B");
+	St_OList->add(" ABE");
+
+	string* list2 = St_OList->get_all();
+	count2 = St_OList->size();
+     string s2[4] = {" ABE"," ABCB","AB","A"};
+
+	for (int i = 0; i < count2; i++)
+	{
+		if(list2[i] != s2[i])
+               test++;
+	}
+	// delete OList;  */
+     //delete St_OList;
 	return test;
 }
