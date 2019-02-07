@@ -1,10 +1,10 @@
                 
 
-#include <typeinfo.h>  // for 'typeid' to work
+//#include <typeinfo.h>  // for 'typeid' to work
 #include <stdio.h>
-#include <string>
+//#include <string>
 
-using namespace std;
+//using namespace std;
 
 
 class Node
